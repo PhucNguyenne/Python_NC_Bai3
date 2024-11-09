@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<form method="POST">
+    <h2>Tìm kiếm sinh viên</h2>
+    <input type="text" name="keyword" placeholder="Nhập MSSV">
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+{% if results %}
+    <h3>Kết quả:</h3>
+    <ul>
+        {% for student in results %}
+        <li>{{ student }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<a href="/dashboard" class="btn-back">Quay lại Dashboard</a>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h2>Dashboard Quản Lý Sinh Viên</h2>
+    
+    <!-- Bảng hiển thị danh sách sinh viên -->
+    <table>
+        <thead>
+            <tr>
+                <th>MSSV</th>
+                <th>Họ và Tên</th>
+                <th>Lớp</th>
+                <th>Ngày sinh</th>
+                <th>Điểm Python</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <div style="text-align: center;">
+        <a href="/add" class="btn">Thêm sinh viên</a>
+        <a href="/search" class="btn">Tìm kiếm sinh viên</a>
+        <a href="/delete_student" class="btn">Xóa sinh viên</a>
+        <a href="/edit_student" class="btn">Sửa sinh viên</a> <!-- Thêm nút sửa sinh viên -->
+    </div>
+    
+</body>
+</html>

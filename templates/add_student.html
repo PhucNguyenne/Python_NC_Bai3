@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<form method="POST">
+    <h2>Thêm sinh viên</h2>
+    <input type="text" name="mssv" placeholder="MSSV" required>
+    <input type="text" name="fullname" placeholder="Họ tên" required>
+    <input type="text" name="class_name" placeholder="Lớp">
+    <input type="date" name="birthday" placeholder="Ngày sinh">
+    <input type="number" name="python_score" placeholder="Điểm Python">
+    <button type="submit">Thêm</button>
+</form>
+<a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
+</body>

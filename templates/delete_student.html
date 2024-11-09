@@ -1,0 +1,23 @@
+<!-- templates/delete_student.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Delete Student</h1>
+        <form action="{{ url_for('delete_student') }}" method="post">
+            <label for="student_id">Mã số sinh viên:</label>
+            <input type="text" id="student_id" name="student_id" required>
+            <button type="submit">Xóa</button>
+        </form>
+    </div>
+
+    <!-- Nút Quay lại -->
+    <a href="{{ url_for('dashboard') }}" class="btn-back">Quay lại Dashboard</a>
+
+</body>
+</html>

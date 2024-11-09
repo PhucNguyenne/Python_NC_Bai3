@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fc; /* Màu nền nhẹ để làm nổi bật các phần tử */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+}
+
+input, button {
+    margin: 5px 0;
+}
+
+.btn-back {
+    background-color: #007bff; /* Màu xanh lam */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #0056b3; /* Màu xanh lam đậm khi hover */
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Nền trắng cho bảng */
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    background-color: #007bff; /* Màu xanh lam cho tiêu đề */
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Màu xám nhạt cho dòng chẵn */
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff; /* Màu trắng cho dòng lẻ */
+}
+
+.btn {
+    display: inline-block;
+    background-color: #ff9900; /* Màu cam để tạo điểm nhấn */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e68900; /* Màu cam đậm khi hover */
+}
+
+/* Định dạng cho các liên kết trong Dashboard */
+a {
+    text-decoration: none; /* Xóa gạch chân */
+    color: #007bff; /* Màu chữ xanh lam */
+    font-weight: bold; /* In đậm chữ */
+    padding: 10px 20px; /* Khoảng cách xung quanh chữ */
+    border-radius: 5px; /* Bo góc cho các liên kết */
+    display: inline-block; /* Đảm bảo các liên kết không bị xếp chồng lên nhau */
+    margin: 10px; /* Khoảng cách giữa các liên kết */
+    background-color: #f4f7fc; /* Nền màu xám nhẹ để làm nổi bật các liên kết */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+}
+
+/* Hiệu ứng khi hover */
+a:hover {
+    background-color: #007bff; /* Màu nền xanh lam khi hover */
+    color: white; /* Màu chữ trắng khi hover */
+}
+
+/* Định dạng cho các liên kết đặc biệt (ví dụ: nút quay lại) */
+a.btn-back {
+    background-color: #ff9900; /* Màu cam cho nút quay lại */
+    color: white;
+}
+
+a.btn-back:hover {
+    background-color: #e68900; /* Màu cam đậm khi hover */
+}
+
+/* Các liên kết thông báo, thông tin (màu vàng) */
+a.info {
+    background-color: #fcd34d; /* Màu vàng tươi */
+    color: black;
+}
+
+a.info:hover {
+    background-color: #fbbf24; /* Màu vàng đậm khi hover */
+}
+
+/* Các liên kết thông báo lỗi (màu đỏ) */
+a.error {
+    background-color: #ef4444; /* Màu đỏ */
+    color: white;
+}
+
+a.error:hover {
+    background-color: #dc2626; /* Màu đỏ đậm khi hover */
+}

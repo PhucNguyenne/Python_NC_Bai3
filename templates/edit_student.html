@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa Sinh Viên</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Sửa Sinh Viên</h1>
+    
+    <!-- Form tìm kiếm sinh viên theo MSSV -->
+    <form method="POST">
+        <label for="mssv">MSSV:</label>
+        <input type="text" name="mssv" placeholder="Nhập MSSV sinh viên"><br><br>
+    
+        <button type="submit" name="search">Tìm Sinh Viên</button>
+    </form>
+
+    {% if student %}
+        <h2>Thông tin Sinh Viên</h2>
+        <!-- Form cập nhật sinh viên nếu tìm thấy thông tin -->
+        <form method="POST">
+            <label for="mssv">MSSV:</label>
+            <input type="text" name="mssv" value="{{ student['mssv'] }}" ><br><br>
+
+            <label for="fullname">Họ Tên:</label>
+            <input type="text" name="fullname" value="{{ student['fullname'] }}"><br><br>
+
+            <label for="class_name">Lớp:</label>
+            <input type="text" name="class_name" value="{{ student['class_name'] }}"><br><br>
+
+            <label for="birthday">Ngày Sinh:</label>
+            <input type="text" name="birthday" value="{{ student['birthday'] }}"><br><br>
+
+            <label for="python_score">Điểm Python:</label>
+            <input type="text" name="python_score" value="{{ student['python_score'] }}"><br><br>
+
+            <button type="submit" name="update">Cập Nhật</button>
+        </form>
+    {% else %}
+        <p>Không tìm thấy sinh viên với MSSV này.</p>
+    {% endif %}
+
+    <a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
+</body>
+</html>
