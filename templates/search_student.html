@@ -15,10 +15,30 @@
 
 {% if results %}
     <h3>Kết quả:</h3>
-    <ul>
-        {% for student in results %}
-        <li>{{ student }}</li>
-        {% endfor %}
-    </ul>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>MSSV</th>
+                <th>Họ Tên</th>
+                <th>Lớp</th>
+                <th>Ngày Sinh</th>
+                <th>Điểm Python</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in results %}
+            <tr>
+                <td>{{ student['mssv'] }}</td>
+                <td>{{ student['fullname'] }}</td>
+                <td>{{ student['class_name'] }}</td>
+                <td>{{ student['birthday'] }}</td>
+                <td>{{ student['python_score'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Không tìm thấy sinh viên nào.</p>
 {% endif %}
+
 <a href="/dashboard" class="btn-back">Quay lại Dashboard</a>

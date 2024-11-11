@@ -52,11 +52,23 @@ class DbConn:
 
     def select(self, **conditions):
         try:
-            query = "SELECT * FROM students WHERE mssv = %s"
+            query = "SELECT mssv, fullname, class_name, birthday, python_score FROM students WHERE mssv = %s"
             self.cursor.execute(query, (conditions['mssv'],))
-            return self.cursor.fetchall()
-        except Exception as ex:
-            print(f"Error fetching student: {ex}")
+            rows = self.cursor.fetchall()
+            # Chuyển kết quả thành danh sách các dictionary
+            results = []
+            for row in rows:
+                student = {
+                    'mssv': row[0],
+                    'fullname': row[1],
+                    'class_name': row[2],
+                    'birthday': row[3],
+                    'python_score': row[4]
+                }
+                results.append(student)
+            return results
+        except Exception as e:
+            print("Error fetching student:", e)
             return []
 
     def update_student(self, mssv, fullname, class_name, birthday, python_score):
