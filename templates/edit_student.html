@@ -6,6 +6,25 @@
     <title>Sửa Sinh Viên</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
+
+<header>
+    <div class="logo">
+        <h2>Chào mừng {{ session['username'] }}!</h2>
+    </div>
+    <nav>
+        <ul class="menu">
+            {% if session['role'] == 'admin' %}
+            <li><a href="/add">Thêm sinh viên</a></li>
+            <li><a href="/manage_students">Quản lý sinh viên</a></li>
+            <li><a href="/delete_student">Xóa sinh viên</a></li>
+            <li><a href="/edit_student">Sửa sinh viên</a></li>
+            {% endif %}
+            <li><a href="/search">Tìm kiếm</a></li>
+            <li><a href="/logout" class="logout">Đăng xuất</a></li>
+        </ul>
+    </nav>
+</header>
+
 <body>
     <h1>Sửa Sinh Viên</h1>
     
@@ -36,12 +55,16 @@
             <label for="python_score">Điểm Python:</label>
             <input type="text" name="python_score" value="{{ student['python_score'] }}"><br><br>
 
-            <button type="submit" name="update">Cập Nhật</button>
+            <button type="submit" name="update"onclick="updateStudent(event)">Cập Nhật</button>
         </form>
     {% else %}
-        <p>Không tìm thấy sinh viên với MSSV này.</p>
+
+        <script>
+            alert('Không tìm thấy sinh viên nào với thông tin bạn nhập.');
+        </script>
     {% endif %}
 
+    
     <a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
 </body>
 </html>

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=student_management
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=123456789
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: student_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

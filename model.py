@@ -26,7 +26,29 @@ class DbConn:
     def check_login(self, username, password):
         query = "SELECT * FROM users WHERE username = %s AND password = %s"
         self.cursor.execute(query, (username, password))
-        return self.cursor.fetchone() is not None
+        result = self.cursor.fetchone() 
+        if result:
+            return {'username': result[0], 'role': result[1]}
+        return None
+    def register_user(self, username, password):
+        try:
+            # Kiểm tra xem username đã tồn tại chưa
+            query_check = "SELECT * FROM users WHERE username = %s"
+            self.cursor.execute(query_check, (username,))
+            if self.cursor.fetchone() is not None:
+                print(f"Username '{username}' already exists.")
+                return False
+
+            # Thêm người dùng mới
+            query_insert = "INSERT INTO users (username, password) VALUES (%s, %s)"
+            self.cursor.execute(query_insert, (username, password))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            self.conn.rollback()
+            print(f"Error registering user: {e}")
+            return False
+
 
     def insert(self, **kwargs):
         try:
@@ -52,7 +74,7 @@ class DbConn:
 
     def select(self, **conditions):
         try:
-            query = "SELECT mssv, fullname, class_name, birthday, python_score FROM students WHERE mssv = %s"
+            query = "SELECT mssv, fullname, class_name, birthday, python_score FROM students WHERE mssv = %s ORDER BY mssv ASC "
             self.cursor.execute(query, (conditions['mssv'],))
             rows = self.cursor.fetchall()
             # Chuyển kết quả thành danh sách các dictionary

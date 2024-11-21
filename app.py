@@ -1,25 +1,69 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from model import DbConn
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "pn"
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('role') != 'admin':
+            flash('Bạn không có quyền truy cập vào trang này.', 'danger')
+            return redirect(url_for('dashboard'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash('Vui lòng đăng nhập trước.', 'warning')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 # Trang đăng nhập
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         with DbConn() as db:
-            if db.check_login(username, password):
+            user_info = db.check_login(username, password)
+            if user_info:
+                role = user_info['role']
                 session['username'] = username
+                session['role'] = role
                 return redirect(url_for('dashboard'))
             else:
                 flash("Sai tên đăng nhập hoặc mật khẩu")
     return render_template('login.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Sử dụng lớp DbConn để đăng ký người dùng
+        with DbConn() as db:
+            if db.register_user(username, password):
+                flash('Registration successful! Please log in.', 'success')
+                return redirect(url_for('login'))
+            else:
+                flash('Username already exists. Please try another one.', 'danger')
+
+    return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Đã đăng xuất thành công.', 'success')
+    return redirect(url_for('login'))
+
 # Dashboard
 @app.route('/dashboard')
+@login_required
 def dashboard():
     if 'username' not in session:
         return redirect(url_for('login'))
@@ -29,6 +73,7 @@ def dashboard():
 
 # Thêm sinh viên
 @app.route('/add', methods=['GET', 'POST'])
+@admin_required
 def add_student():
     if request.method == 'POST':
         data = {
@@ -48,6 +93,7 @@ def add_student():
 
 # Xóa sinh viên
 @app.route('/delete_student', methods=['GET', 'POST'])
+@admin_required
 def delete_student():
     if request.method == 'POST':
         student_id = request.form['student_id']
@@ -61,6 +107,7 @@ def delete_student():
 
 # Tìm kiếm sinh viên
 @app.route('/search', methods=['GET', 'POST'])
+
 def search_student():
     results = []
     if request.method == 'POST':

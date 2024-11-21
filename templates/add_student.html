@@ -3,18 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Thêm sinh viên</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <script>
+        function validateForm() {
+            const score = document.getElementById("python_score").value;
+            if (score < 0 || score > 10) {
+                alert("Điểm Python phải nằm trong khoảng từ 0 đến 10.");
+                return false; // Ngăn gửi form nếu không hợp lệ
+            }
+            return true; // Cho phép gửi form nếu hợp lệ
+        }
+    </script>
 </head>
+
+<header>
+    <div class="logo">
+        <h2>Chào mừng {{ session['username'] }}!</h2>
+    </div>
+    <nav>
+        <ul class="menu">
+            
+            {% if session['role'] == 'admin' %}
+            <li><a href="/add">Thêm sinh viên</a></li>
+            <li><a href="/manage_students">Quản lý sinh viên</a></li>
+            <li><a href="/delete_student">Xóa sinh viên</a></li>
+            <li><a href="/edit_student">Sửa sinh viên</a></li>
+            {% endif %}
+            <li><a href="/search">Tìm kiếm</a></li>
+            <li><a href="/logout" class="logout">Đăng xuất</a></li>
+        </ul>
+    </nav>
+</header>
 <body>
-<form method="POST">
-    <h2>Thêm sinh viên</h2>
-    <input type="text" name="mssv" placeholder="MSSV" required>
-    <input type="text" name="fullname" placeholder="Họ tên" required>
-    <input type="text" name="class_name" placeholder="Lớp">
-    <input type="date" name="birthday" placeholder="Ngày sinh">
-    <input type="number" name="python_score" placeholder="Điểm Python">
-    <button type="submit">Thêm</button>
-</form>
-<a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
+    <form method="POST" onsubmit="return validateForm()">
+        <h2>Thêm sinh viên</h2>
+        <input type="text" name="mssv" placeholder="MSSV" required>
+        <input type="text" name="fullname" placeholder="Họ tên" required>
+        <input type="text" name="class_name" placeholder="Lớp">
+        <input type="date" name="birthday" placeholder="Ngày sinh">
+        <input type="number" id="python_score" name="python_score" placeholder="Điểm Python" step="0.1" required>
+        <button type="submit">Thêm</button>
+    </form>
+    <a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
 </body>
+</html>

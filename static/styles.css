@@ -1,6 +1,13 @@
 body {
+    background-image: url('/static/background.jpg'); /* Đường dẫn tới file ảnh nền nếu có */
+    background-color: #f0f8ff; /* Màu nền nếu không có ảnh */
+    background-size: cover; /* Đảm bảo ảnh bao phủ toàn bộ màn hình */
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn */
     font-family: Arial, sans-serif;
-    background-color: #f4f7fc; /* Màu nền nhẹ để làm nổi bật các phần tử */
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
 form {
@@ -69,6 +76,7 @@ tr:nth-child(odd) {
     border-radius: 5px;
     margin-top: 20px;
     transition: background-color 0.3s ease;
+    
 }
 
 .btn:hover {
@@ -98,6 +106,7 @@ a:hover {
 a.btn-back {
     background-color: #ff9900; /* Màu cam cho nút quay lại */
     color: white;
+    align-items: center;
 }
 
 a.btn-back:hover {
@@ -122,4 +131,80 @@ a.error {
 
 a.error:hover {
     background-color: #dc2626; /* Màu đỏ đậm khi hover */
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #ff7f50, #ff6347); /* Màu gradient từ cam đến đỏ */
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header .logo h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul.menu li {
+    margin-left: 15px;
+}
+
+nav ul.menu li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #007bff; /* Màu xanh lam cho nút mặc định */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng khi hover */
+nav ul.menu li a:hover {
+    background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+    transform: translateY(-3px); /* Hiệu ứng nổi khi hover */
+}
+
+/* Nút đăng xuất với màu đỏ nổi bật */
+nav ul.menu li a.logout {
+    background-color: #dc3545; /* Màu đỏ cho nút đăng xuất */
+}
+
+nav ul.menu li a.logout:hover {
+    background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+    transform: translateY(-3px); /* Hiệu ứng nổi khi hover */
+}
+/* Footer */
+footer {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
 }

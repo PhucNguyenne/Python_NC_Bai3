@@ -1,4 +1,3 @@
-<!-- templates/delete_student.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +5,30 @@
     <title>Delete Student</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
+<header>
+    <div class="logo">
+        <h2>Chào mừng {{ session['username'] }}!</h2>
+    </div>
+    <nav>
+        <ul class="menu">
+
+            {% if session['role'] == 'admin' %}
+            <li><a href="/add">Thêm sinh viên</a></li>
+            <li><a href="/manage_students">Quản lý sinh viên</a></li>
+            <li><a href="/delete_student">Xóa sinh viên</a></li>
+            <li><a href="/edit_student">Sửa sinh viên</a></li>
+            {% endif %}
+            <li><a href="/search">Tìm kiếm</a></li>
+            <li><a href="/logout" class="logout">Đăng xuất</a></li>
+        </ul>
+    </nav>
+</header>
+
 <body>
     <div class="container">
-        <h1>Delete Student</h1>
-        <form action="{{ url_for('delete_student') }}" method="post">
+        <h1>Xóa sinh viên</h1>
+        <form id="deleteForm" action="{{ url_for('delete_student') }}" method="post">
             <label for="student_id">Mã số sinh viên:</label>
             <input type="text" id="student_id" name="student_id" required>
             <button type="submit">Xóa</button>
@@ -19,5 +38,18 @@
     <!-- Nút Quay lại -->
     <a href="{{ url_for('dashboard') }}" class="btn-back">Quay lại Dashboard</a>
 
+    <!-- JavaScript -->
+    <script>
+        // Lắng nghe sự kiện submit của form
+        document.getElementById("deleteForm").addEventListener("submit", function(event) {
+            // Hiển thị hộp thoại xác nhận
+            const confirmDelete = confirm("Bạn có chắc chắn muốn xóa sinh viên này không?");
+            
+            // Nếu người dùng chọn Cancel, ngăn chặn việc submit form
+            if (!confirmDelete) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>

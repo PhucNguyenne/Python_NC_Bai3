@@ -7,38 +7,61 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 
+<header>
+    <div class="logo">
+        <h2>Chào mừng {{ session['username'] }}!</h2>
+    </div>
+    <nav>
+        <ul class="menu">
+            
+            {% if session['role'] == 'admin' %}
+            <li><a href="/add">Thêm sinh viên</a></li>
+            <li><a href="/manage_students">Quản lý sinh viên</a></li>
+            <li><a href="/delete_student">Xóa sinh viên</a></li>
+            <li><a href="/edit_student">Sửa sinh viên</a></li>
+            {% endif %}
+            <li><a href="/search">Tìm kiếm</a></li>
+            <li><a href="/logout" class="logout">Đăng xuất</a></li>
+        </ul>
+    </nav>
+</header>
+
 <form method="POST">
     <h2>Tìm kiếm sinh viên</h2>
-    <input type="text" name="keyword" placeholder="Nhập MSSV">
+    <input type="text" name="keyword" placeholder="Nhập MSSV" required>
     <button type="submit">Tìm kiếm</button>
 </form>
 
-{% if results %}
-    <h3>Kết quả:</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>MSSV</th>
-                <th>Họ Tên</th>
-                <th>Lớp</th>
-                <th>Ngày Sinh</th>
-                <th>Điểm Python</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in results %}
-            <tr>
-                <td>{{ student['mssv'] }}</td>
-                <td>{{ student['fullname'] }}</td>
-                <td>{{ student['class_name'] }}</td>
-                <td>{{ student['birthday'] }}</td>
-                <td>{{ student['python_score'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Không tìm thấy sinh viên nào.</p>
+{% if results is not none %}
+    {% if results %}
+        <h3>Kết quả:</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>MSSV</th>
+                    <th>Họ Tên</th>
+                    <th>Lớp</th>
+                    <th>Ngày Sinh</th>
+                    <th>Điểm Python</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in results %}
+                <tr>
+                    <td>{{ student['mssv'] }}</td>
+                    <td>{{ student['fullname'] }}</td>
+                    <td>{{ student['class_name'] }}</td>
+                    <td>{{ student['birthday'] }}</td>
+                    <td>{{ student['python_score'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <script>
+            alert('Không tìm thấy sinh viên nào với thông tin bạn nhập.');
+        </script>
+    {% endif %}
 {% endif %}
 
 <a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
