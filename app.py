@@ -22,6 +22,12 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+
+# route website
+@app.route('/')
+def index():
+    return render_template('index.html')
 # Trang đăng nhập
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -36,7 +42,7 @@ def login():
                 session['role'] = role
                 return redirect(url_for('dashboard'))
             else:
-                flash("Sai tên đăng nhập hoặc mật khẩu")
+                flash("Sai tên đăng nhập hoặc mật khẩu" , "error")
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -51,15 +57,15 @@ def register():
                 flash('Registration successful! Please log in.', 'success')
                 return redirect(url_for('login'))
             else:
-                flash('Username already exists. Please try another one.', 'danger')
+                flash('Username đã tồn tại, hãy chọn tên khác.', 'danger')
 
     return render_template('register.html')
 
 @app.route('/logout')
 def logout():
     session.clear()
-    flash('Đã đăng xuất thành công.', 'success')
-    return redirect(url_for('login'))
+    
+    return redirect(url_for('index'))
 
 # Dashboard
 @app.route('/dashboard')
@@ -85,10 +91,10 @@ def add_student():
         }
         with DbConn() as db:
             if db.insert(**data):
-                flash("Thêm sinh viên thành công")
+                flash("Thêm sinh viên thành công", "success")
             else:
                 flash("Sinh viên đã tồn tại")
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('add_student'))
     return render_template('add_student.html')
 
 # Xóa sinh viên
@@ -99,21 +105,22 @@ def delete_student():
         student_id = request.form['student_id']
         with DbConn() as db:
             if db.delete(mssv=student_id):
-                flash("Xóa sinh viên thành công")
+                flash("Xóa sinh viên thành công", "success")
             else:
-                flash("Sinh viên không tồn tại")
-        return redirect(url_for('dashboard'))
+                flash("Sinh viên không tồn tại", "error")
+        return redirect(url_for('delete_student'))
     return render_template('delete_student.html')
 
 # Tìm kiếm sinh viên
 @app.route('/search', methods=['GET', 'POST'])
-
 def search_student():
     results = []
     if request.method == 'POST':
         keyword = request.form['keyword']
         with DbConn() as db:
             results = db.select(mssv=keyword)
+            if not results:
+                flash("Sinh viên không tồn tại", "error")
     return render_template('search_student.html', results=results)
 
 # Sửa sinh viên
@@ -130,7 +137,7 @@ def edit_student():
             if student:
                 student = student[0]  # Chỉ lấy sinh viên đầu tiên
             else:
-                flash("Sinh viên không tồn tại")
+                flash("Sinh viên không tồn tại", "danger")
                 return redirect(url_for('edit_student'))  # Quay lại trang sửa nếu không tìm thấy sinh viên
     
     elif request.method == 'POST' and 'update' in request.form:
@@ -145,10 +152,10 @@ def edit_student():
         with DbConn() as db:
             # Sử dụng phương thức update_student của DbConn để cập nhật thông tin
             if db.update_student(mssv, fullname, class_name, birthday, python_score):
-                flash("Cập nhật sinh viên thành công")
-                return redirect(url_for('dashboard'))  # Quay lại dashboard sau khi thành công
+                flash("Cập nhật sinh viên thành công", "success")
+                return redirect(url_for('edit_student'))  # Quay lại dashboard sau khi thành công
             else:
-                flash("Lỗi cập nhật sinh viên")
+                flash("Lỗi cập nhật sinh viên", "error")
                 return redirect(url_for('edit_student'))  # Quay lại trang sửa nếu có lỗi
 
     return render_template('edit_student.html', student=student)
@@ -156,7 +163,6 @@ def edit_student():
 @app.route('/update_student', methods=['GET', 'POST'])
 def update_student():
     student = None
-
     if request.method == 'POST':
         mssv = request.form.get('mssv')
         

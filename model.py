@@ -24,23 +24,30 @@ class DbConn:
         self.conn.close()
 
     def check_login(self, username, password):
-        query = "SELECT * FROM users WHERE username = %s AND password = %s"
+        query = sql.SQL("SELECT * FROM {table} WHERE username = %s AND password = %s").format(
+            table=sql.Identifier("users")
+        )
         self.cursor.execute(query, (username, password))
-        result = self.cursor.fetchone() 
+        result = self.cursor.fetchone()
         if result:
             return {'username': result[0], 'role': result[1]}
         return None
+
     def register_user(self, username, password):
         try:
             # Kiểm tra xem username đã tồn tại chưa
-            query_check = "SELECT * FROM users WHERE username = %s"
+            query_check = sql.SQL("SELECT * FROM {table} WHERE username = %s").format(
+                table=sql.Identifier("users")
+            )
             self.cursor.execute(query_check, (username,))
             if self.cursor.fetchone() is not None:
                 print(f"Username '{username}' already exists.")
                 return False
 
             # Thêm người dùng mới
-            query_insert = "INSERT INTO users (username, password) VALUES (%s, %s)"
+            query_insert = sql.SQL("INSERT INTO {table} (username, password) VALUES (%s, %s)").format(
+                table=sql.Identifier("users")
+            )
             self.cursor.execute(query_insert, (username, password))
             self.conn.commit()
             return True
@@ -49,11 +56,16 @@ class DbConn:
             print(f"Error registering user: {e}")
             return False
 
-
     def insert(self, **kwargs):
         try:
-            query = sql.SQL("INSERT INTO students (mssv, fullname, class_name, birthday, python_score) VALUES (%s, %s, %s, %s, %s)")
-            self.cursor.execute(query, tuple(kwargs.values()))
+            columns = kwargs.keys()
+            values = kwargs.values()
+            query = sql.SQL("INSERT INTO {table} ({fields}) VALUES ({placeholders})").format(
+                table=sql.Identifier("students"),
+                fields=sql.SQL(', ').join(map(sql.Identifier, columns)),
+                placeholders=sql.SQL(', ').join(sql.Placeholder() * len(columns))
+            )
+            self.cursor.execute(query, tuple(values))
             self.conn.commit()
             return True
         except Exception as ex:
@@ -63,8 +75,12 @@ class DbConn:
 
     def delete(self, **conditions):
         try:
-            query = "DELETE FROM students WHERE mssv = %s"
-            self.cursor.execute(query, (conditions['mssv'],))
+            conds = [sql.SQL("{} = {}").format(sql.Identifier(k), sql.Placeholder()) for k in conditions.keys()]
+            query = sql.SQL("DELETE FROM {table} WHERE {conds}").format(
+                table=sql.Identifier("students"),
+                conds=sql.SQL(" AND ").join(conds)
+            )
+            self.cursor.execute(query, tuple(conditions.values()))
             self.conn.commit()
             return True
         except Exception as ex:
@@ -74,20 +90,23 @@ class DbConn:
 
     def select(self, **conditions):
         try:
-            query = "SELECT mssv, fullname, class_name, birthday, python_score FROM students WHERE mssv = %s ORDER BY mssv ASC "
-            self.cursor.execute(query, (conditions['mssv'],))
+            conds = [sql.SQL("{} = {}").format(sql.Identifier(k), sql.Placeholder()) for k in conditions.keys()]
+            query = sql.SQL("SELECT * FROM {table} WHERE {conds} ORDER BY mssv ASC").format(
+                table=sql.Identifier("students"),
+                conds=sql.SQL(" AND ").join(conds)
+            )
+            self.cursor.execute(query, tuple(conditions.values()))
             rows = self.cursor.fetchall()
-            # Chuyển kết quả thành danh sách các dictionary
-            results = []
-            for row in rows:
-                student = {
+            results = [
+                {
                     'mssv': row[0],
                     'fullname': row[1],
                     'class_name': row[2],
                     'birthday': row[3],
                     'python_score': row[4]
                 }
-                results.append(student)
+                for row in rows
+            ]
             return results
         except Exception as e:
             print("Error fetching student:", e)
@@ -107,11 +126,14 @@ class DbConn:
             print(f"Error updating student: {e}")
             self.conn.rollback()
             return False
-    
+
+
     def get_student_by_mssv(self, mssv):
         try:
-            sql = "SELECT * FROM students WHERE mssv = %s"
-            self.cursor.execute(sql, (mssv,))
+            query = sql.SQL("SELECT * FROM {table} WHERE mssv = %s").format(
+                table=sql.Identifier("students")
+            )
+            self.cursor.execute(query, (mssv,))
             return self.cursor.fetchone()
         except Exception as e:
             print(f"Error fetching student: {e}")

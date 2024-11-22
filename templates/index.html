@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Lý Sinh Viên</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        /* Nền mờ khi popup hiển thị */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* Hiển thị popup */
+        .popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Nội dung popup */
+        .popup-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-content h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .popup-content .info {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .popup-content .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1.2rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .popup-content .button:hover {
+            background-color: #0056b3;
+        }
+
+        .popup-content .close-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 1rem;
+            color: #333;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .popup-content .close-btn:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2>WEBSITE QUẢN LÝ SINH VIÊN</h2>
+        </div>
+    </header>
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <h1>Chào Mừng</h1>
+            <p class="info">Đăng nhập hoặc đăng ký tài khoản của bạn</p>
+
+            <!-- Nút Đăng Nhập -->
+            <a href="/login" class="button">Đăng Nhập</a>
+
+            <!-- Nút Đăng Ký -->
+            <a href="/register" class="button">Đăng Ký</a>
+
+            <!-- 
+            Nút đóng 
+            <button class="close-btn" onclick="closePopup()">Đóng</button> 
+            -->
+        </div>
+    </div>
+
+    <script>
+        // Hàm mở popup
+        function openPopup() {
+            document.getElementById('popup').classList.add('active');
+        }
+
+        // Hàm đóng popup
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+        }
+
+        // Tự động mở popup khi tải trang
+        window.onload = function() {
+            openPopup();
+        };
+    </script> 
+    <footer>
+        <p>&copy; 2024 - Hệ thống quản lý sinh viên </p>
+        <p> Nguyễn Phúc Nguyên
+            2274802010586
+        </p>
+
+    </footer>
+</body>
+</html>

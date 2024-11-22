@@ -15,8 +15,8 @@
         <ul class="menu">
             
             {% if session['role'] == 'admin' %}
+            <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/add">Thêm sinh viên</a></li>
-            <li><a href="/manage_students">Quản lý sinh viên</a></li>
             <li><a href="/delete_student">Xóa sinh viên</a></li>
             <li><a href="/edit_student">Sửa sinh viên</a></li>
             {% endif %}
@@ -27,14 +27,15 @@
 </header>
 
 <form method="POST">
+    <div class="form-container">
     <h2>Tìm kiếm sinh viên</h2>
     <input type="text" name="keyword" placeholder="Nhập MSSV" required>
     <button type="submit">Tìm kiếm</button>
+    </div>
 </form>
 
 {% if results is not none %}
     {% if results %}
-        <h3>Kết quả:</h3>
         <table border="1">
             <thead>
                 <tr>
@@ -58,10 +59,24 @@
             </tbody>
         </table>
     {% else %}
-        <script>
-            alert('Không tìm thấy sinh viên nào với thông tin bạn nhập.');
-        </script>
+        <!-- Hiển thị Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                alert("{{ message }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+        {% endwith %}
     {% endif %}
 {% endif %}
+<footer>
+    <p>&copy; 2024 - Hệ thống quản lý sinh viên </p>
+    <p> Nguyễn Phúc Nguyên
+        2274802010586
+    </p>
 
-<a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
+</footer>
+
+</html>

@@ -14,8 +14,8 @@
         <ul class="menu">
 
             {% if session['role'] == 'admin' %}
+            <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/add">Thêm sinh viên</a></li>
-            <li><a href="/manage_students">Quản lý sinh viên</a></li>
             <li><a href="/delete_student">Xóa sinh viên</a></li>
             <li><a href="/edit_student">Sửa sinh viên</a></li>
             {% endif %}
@@ -26,17 +26,13 @@
 </header>
 
 <body>
-    <div class="container">
+    <div class="form-container">
         <h1>Xóa sinh viên</h1>
         <form id="deleteForm" action="{{ url_for('delete_student') }}" method="post">
-            <label for="student_id">Mã số sinh viên:</label>
-            <input type="text" id="student_id" name="student_id" required>
+            <input type="text" id="student_id" name="student_id" required placeholder="Nhập MSSV sinh viên"> 
             <button type="submit">Xóa</button>
         </form>
     </div>
-
-    <!-- Nút Quay lại -->
-    <a href="{{ url_for('dashboard') }}" class="btn-back">Quay lại Dashboard</a>
 
     <!-- JavaScript -->
     <script>
@@ -51,5 +47,24 @@
             }
         });
     </script>
+
+     <!-- Hiển thị Flash messages -->
+     {% with messages = get_flashed_messages(with_categories=true) %}
+     {% if messages %}
+         <script>
+             {% for category, message in messages %}
+             alert("{{ message }}");
+             {% endfor %}
+         </script>
+     {% endif %}
+     {% endwith %}
+    
+     <footer>
+        <p>&copy; 2024 - Hệ thống quản lý sinh viên </p>
+        <p> Nguyễn Phúc Nguyên
+            2274802010586
+        </p>
+
+    </footer>
 </body>
 </html>

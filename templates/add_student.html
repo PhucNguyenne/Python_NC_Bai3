@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm sinh viên</title>
     <link rel="stylesheet" href="/static/styles.css">
+    
     <script>
         function validateForm() {
             const score = document.getElementById("python_score").value;
@@ -25,8 +26,8 @@
         <ul class="menu">
             
             {% if session['role'] == 'admin' %}
+            <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/add">Thêm sinh viên</a></li>
-            <li><a href="/manage_students">Quản lý sinh viên</a></li>
             <li><a href="/delete_student">Xóa sinh viên</a></li>
             <li><a href="/edit_student">Sửa sinh viên</a></li>
             {% endif %}
@@ -36,15 +37,49 @@
     </nav>
 </header>
 <body>
-    <form method="POST" onsubmit="return validateForm()">
-        <h2>Thêm sinh viên</h2>
-        <input type="text" name="mssv" placeholder="MSSV" required>
-        <input type="text" name="fullname" placeholder="Họ tên" required>
-        <input type="text" name="class_name" placeholder="Lớp">
-        <input type="date" name="birthday" placeholder="Ngày sinh">
-        <input type="number" id="python_score" name="python_score" placeholder="Điểm Python" step="0.1" required>
-        <button type="submit">Thêm</button>
-    </form>
-    <a href="/dashboard" class="btn-back">Quay lại Dashboard</a>
+    <div class="form-container">
+        <form id="addForm" method="POST" onsubmit="return validateForm()">
+            <h2>Thêm sinh viên</h2>
+            <input type="text" name="mssv" placeholder="MSSV" required>
+            <input type="text" name="fullname" placeholder="Họ tên" required>
+            <input type="text" name="class_name" placeholder="Lớp">
+            <input type="date" name="birthday" placeholder="Ngày sinh">
+            <input type="number" id="python_score" name="python_score" placeholder="Điểm Python" step="0.1" required>
+            <button type="submit">Thêm</button>
+        </form>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Lắng nghe sự kiện submit của form
+        document.getElementById("addForm").addEventListener("submit", function(event) {
+            // Hiển thị hộp thoại xác nhận
+            const confirmDelete = confirm("Bạn có chắc chắn muốn xóa sinh viên này không?");
+            
+            // Nếu người dùng chọn Cancel, ngăn chặn việc submit form
+            if (!confirmDelete) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+    <!-- Hiển thị Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <script>
+            {% for category, message in messages %}
+            alert("{{ message }}");
+            {% endfor %}
+        </script>
+    {% endif %}
+    {% endwith %}
+
+    <footer>
+        <p>&copy; 2024 - Hệ thống quản lý sinh viên </p>
+        <p> Nguyễn Phúc Nguyên
+            2274802010586
+        </p>
+
+    </footer>
 </body>
 </html>

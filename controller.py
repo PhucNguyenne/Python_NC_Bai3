@@ -4,6 +4,7 @@ class StudentController:
     def __init__(self, treeview):
         self.treeview = treeview
 
+# GUI
     def load_all_students(self):
         # Sử dụng DbConn để lấy dữ liệu sinh viên từ database
         with DbConn() as db:
@@ -13,6 +14,8 @@ class StudentController:
             # Chèn từng dòng kết quả vào Treeview
             for row in results:
                 self.treeview.insert('', 'end', values=row)
+# end GUI
+
 
     def insert_student(self, **student_data):
         with DbConn() as db:

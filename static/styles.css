@@ -1,13 +1,17 @@
 body {
-    background-image: url('/static/background.jpg'); /* Đường dẫn tới file ảnh nền nếu có */
-    background-color: #f0f8ff; /* Màu nền nếu không có ảnh */
-    background-size: cover; /* Đảm bảo ảnh bao phủ toàn bộ màn hình */
+    background-image: url('/static/background.jpg'); 
+    background-color: #f0f8ff; 
+    background-size: cover; 
     background-position: center;
-    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn */
+    background-attachment: fixed; 
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     color: #333;
+    justify-content: center;  /* Căn giữa theo chiều ngang */
+    align-items: center;      /* Căn giữa theo chiều dọc */
+    height: 100vh;  
+    
 }
 
 form {
@@ -19,6 +23,56 @@ form {
 
 input, button {
     margin: 5px 0;
+}
+.form-container {
+    display: flex;
+    flex-direction: column;  /* Xếp các phần tử con theo chiều dọc */
+    justify-content: center;  /* Căn giữa theo chiều dọc */
+    align-items: center;      /* Căn giữa theo chiều ngang */
+    background-color: #fff;
+    padding: 60px;            /* Tăng padding bên trong form */
+    padding-top: 80px;        /* Tăng padding ở trên */
+    border-radius: 15px;      /* Tăng độ bo góc */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);  /* Tăng độ mờ và kích thước bóng đổ */
+    width: 500px;             /* Tăng chiều rộng của form */
+    text-align: center;
+    border: 2px solid #ccc;  /* Viền xung quanh form */
+    box-sizing: border-box;   /* Đảm bảo padding và border tính trong kích thước tổng thể */
+    margin: 0 auto;           /* Căn giữa form trong trang */
+}
+
+/* Tăng kích thước chữ cho các input và button */
+.form-container input,
+.form-container button {
+    width: 100%;
+    padding: 18px;
+    font-size: 20px;  /* Tăng kích thước chữ */
+    margin: 15px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Tăng kích thước chữ tiêu đề */
+.form-container h2 {
+    font-size: 36px;  /* Tăng kích thước tiêu đề */
+    margin-bottom: 20px;
+}
+
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #3e8e41;
 }
 
 .btn-back {
@@ -42,6 +96,7 @@ table {
     margin: 20px auto;
     border-collapse: collapse;
     background-color: #ffffff; /* Nền trắng cho bảng */
+    
 }
 
 table, th, td {
@@ -51,12 +106,14 @@ table, th, td {
 
 th, td {
     padding: 10px;
+    font-size: 1.5rem;
 }
 
 th {
     background-color: #007bff; /* Màu xanh lam cho tiêu đề */
     color: white;
     font-weight: bold;
+
 }
 
 tr:nth-child(even) {
@@ -142,14 +199,14 @@ header {
     align-items: center;
     padding: 15px 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
 }
 
 header .logo h2 {
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 3rem;
     font-weight: bold;
 }
-
 nav {
     display: flex;
     align-items: center;
@@ -160,6 +217,7 @@ nav ul.menu {
     margin: 0;
     padding: 0;
     display: flex;
+    font-size: 1.5rem;
 }
 
 nav ul.menu li {
@@ -207,4 +265,19 @@ footer {
 footer p {
     margin: 0;
     font-size: 0.9rem;
+}
+
+main {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2{font-size: 5rem;}
+}
+
+h2{
+    align-items: center;
+    font-size: 3rem;
 }

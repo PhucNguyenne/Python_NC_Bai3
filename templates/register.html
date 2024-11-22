@@ -3,37 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Đăng ký</title>
     <link rel="stylesheet" href="/static/styles.css">
-</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
 
-<header>
-    <div class="logo">
-        <h2>Chào mừng {{ session['username'] }}!</h2>
-    </div>
-    <nav>
-        <ul class="menu">
-            
-            {% if session['role'] == 'admin' %}
-            <li><a href="/add">Thêm sinh viên</a></li>
-            <li><a href="/manage_students">Quản lý sinh viên</a></li>
-            <li><a href="/delete_student">Xóa sinh viên</a></li>
-            <li><a href="/edit_student">Sửa sinh viên</a></li>
-            {% endif %}
-            <li><a href="/search">Tìm kiếm</a></li>
-            <li><a href="/logout" class="logout">Đăng xuất</a></li>
-        </ul>
-    </nav>
-</header>
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h2 {
+            font-size: 32px; /* Tăng kích thước chữ tiêu đề */
+            margin-bottom: 20px;
+        }
+
+        .popup form input,
+        .popup form button {
+            width: 100%;
+            margin: 15px 0;
+            padding: 15px;
+            font-size: 20px; /* Tăng kích thước chữ cho các input và button */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .popup form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup form button:hover {
+            background-color: #45a049;
+        }
+
+        .popup .login-link {
+            font-size: 18px; /* Tăng kích thước chữ cho phần liên kết đăng nhập */
+            margin-top: 20px;
+        }
+
+        .popup .login-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px; /* Tăng kích thước chữ cho liên kết đăng nhập */
+        }
+
+        .popup .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .popup .close-popup {
+            margin-top: 15px;
+            cursor: pointer;
+            color: #007bff;
+            font-size: 20px; /* Tăng kích thước chữ cho nút đóng */
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
-    <div class="container">
-        <h2>Register</h2>
-        <form method="POST" action="/register">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Register</button>
-        </form>
-        <p><a href="/login">Already have an account? Login here</a></p>
+
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h2>Đăng ký</h2>
+            <form method="POST" action="/register">
+                <input type="text" name="username" placeholder="Tên đăng nhập" required>
+                <input type="password" name="password" placeholder="Mật khẩu" required>
+                <button type="submit">Đăng ký</button>
+            </form>
+               <!-- Hiển thị thông báo lỗi nếu có -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <script>
+                    alert("{{ messages[0] }}");
+                </script>
+            {% endif %}
+            {% endwith %}
+            <!-- Dòng chữ liên kết đến trang đăng nhập -->
+            <div class="login-link">
+                <p>Bạn đã có tài khoản? <a href="/login">Đăng nhập ngay</a></p>
+            </div>
+        </div>
     </div>
+
 </body>
 </html>
